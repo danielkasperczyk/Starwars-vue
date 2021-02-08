@@ -5,24 +5,30 @@
             @submit.prevent="submit">
                 <v-text-field 
                     v-model="text"
+                    placeholder="Find your hero"
                     autocomplete="off"/>
                 <v-btn class="ml-5" type="submit">Search</v-btn>
         </v-form>
     </div>
 </template>
 <script>
+import { mapActions } from 'vuex';
+
 export default {
     name: 'Form',
     data: () => ({
         text: '',
     }),
-    emits: ['submited'],
     methods: {
+        ...mapActions([
+            'fetchHeroes'
+        ]),
+
         submit(){
             if(this.text.length > 0) {
-                this.$emit('submited', this.text);
-                
+                this.$store.dispatch("fetchHeroes", this.text);
                 this.text = '';
+                console.log(this.$store)
             }
         }
     }

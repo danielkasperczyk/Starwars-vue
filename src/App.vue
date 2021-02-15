@@ -1,22 +1,24 @@
 <template>
   <v-app>
-    <Header />
+      <Header />
     <v-main class="pa-0">
-      <Home />
+      <v-container>
+        <router-view></router-view>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import Header from './components/Header';
-import Home from './components/Home';
+
 
 export default {
   name: 'App',
 
   components: {
     Header,
-    Home
+
   },
 };
 </script>

@@ -21,6 +21,7 @@ export default {
         async fetchHeroes(context, text){
             const response = await axios.get(`https://swapi.dev/api/people/?search=${text}`)
             const data = await response.data.results;
+            
             const endData = data.length > 0 ? data : "Hero not found";
             context.commit("setHeroes", endData);
         }

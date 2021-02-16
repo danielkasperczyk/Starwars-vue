@@ -12,7 +12,10 @@ export default {
         },
         filteredHeroes: state => gender => {
             if(gender !== "All"){
-                return state.heroes.filter(hero => hero.gender.toUpperCase() === gender.toUpperCase());
+                return gender === "Unknown" ? 
+                    state.heroes.filter(hero => hero.gender === 'n/a') 
+                    :  
+                    state.heroes.filter(hero => hero.gender.toUpperCase() === gender.toUpperCase());
             }
             return state.heroes;
         }

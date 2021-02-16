@@ -4,10 +4,10 @@
             max-width="400"
             class="mx-auto text">
             <v-list-item v-for="(value, index) in this.hero" :key="index">
-                <v-list-content>
+                <v-list-item-content>
                     <v-list-item-title>{{value}}</v-list-item-title>
                     <v-list-item-subtitle>{{index.replace('_', ' ')}}</v-list-item-subtitle>
-                </v-list-content>
+                </v-list-item-content>
             </v-list-item>
     </v-card>
     <v-btn
@@ -47,7 +47,6 @@ export default {
             skin_color,
             world
         }
-        console.log(this.hero);
     }
 }
 </script>

@@ -5,7 +5,7 @@
             class="mx-auto text">
             <v-list-item v-for="(value, index) in this.hero" :key="index">
                 <v-list-item-content>
-                    <v-list-item-title>{{value}}</v-list-item-title>
+                    <v-list-item-title>{{value === 'n/a' ? 'unknown' : value}}</v-list-item-title>
                     <v-list-item-subtitle>{{index.replace('_', ' ')}}</v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
@@ -36,11 +36,13 @@ export default {
         }
     },
      async created(){
-        const { name, mass, height, hair_color, skin_color, homeworld } = this.heroData;
-        const homeRes = await axios.get(`${homeworld}`);
+        const { name, mass, height, hair_color, gender, skin_color, homeworld } = this.heroData;
+        const homeworldStr = homeworld.slice(0,4) + 's';
+        const homeRes = await axios.get(`${homeworldStr.concat(homeworld.slice(4))}`);
         const world = await homeRes.data.name;
         this.hero = {
             name, 
+            gender,
             mass, 
             height, 
             hair_color, 

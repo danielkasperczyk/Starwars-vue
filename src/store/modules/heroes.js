@@ -9,6 +9,12 @@ export default {
             if(state.heroes.length > 0) {
                 return state.heroes;
             }
+        },
+        filteredHeroes: state => gender => {
+            if(gender !== "All"){
+                return state.heroes.filter(hero => hero.gender.toUpperCase() === gender.toUpperCase());
+            }
+            return state.heroes;
         }
     },
     mutations: {

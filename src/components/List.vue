@@ -16,7 +16,6 @@
                 <v-list-item
                     v-for="(hero,index) in filterHeroes"
                     :key="index"
-                    :gender="hero.gender"
                     :to="{name: 'hero', params:{heroId: hero.name, heroData: hero}}">
                         <v-list-item-content>
                                 <v-list-item-title 
@@ -34,6 +33,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'List',
     data(){

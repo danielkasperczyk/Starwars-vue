@@ -4,8 +4,7 @@
             ref="form"
             v-model="valid"
             class="d-flex align-center"
-            @submit.prevent="submit"
-            lazy-validation>
+            @submit.prevent="submit">
                 <v-text-field 
                     v-model="text"
                     :rules="rules"
@@ -32,17 +31,14 @@ export default {
         rules: [
             value => !!value || 'Hero is required',
         ],
-        valid: true
+        valid: false
     }),
     methods: {
         ...mapActions([
             'fetchHeroes'
         ]),
-
         submit(){
-            if(this.text.length > 0) {
-                this.$store.dispatch("fetchHeroes", this.text);
-            }
+                this.fetchHeroes(this.text);
         },
         validate(){
             this.$refs.form.validate();

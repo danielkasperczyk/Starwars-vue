@@ -1,40 +1,53 @@
 import axios from 'axios';
 
 export default {
-    state:{
-        heroes: []
-    },
-    getters: {
-        returnHero(state){
-            if(state.heroes.length > 0) {
-                return state.heroes;
-            }
-        },
-        filteredHeroes: state => gender => {
-            if(gender !== "All"){
-                return gender === "Unknown" ? 
-                    state.heroes.filter(hero => hero.gender === 'n/a') 
-                    :  
-                    state.heroes.filter(hero => hero.gender.toUpperCase() === gender.toUpperCase());
-            }
-            return state.heroes;
-        }
-    },
-    mutations: {
-        setHeroes(state, payload){
-            state.heroes = payload;
-        }
-    },
-    
-    actions: {
-        async fetchHeroes(context, text){
-            const response = await axios.get(`https://swapi.dev/api/people/?search=${text}`)
-            const data = await response.data.results;
-            
-            const endData = data.length > 0 ? data : "Hero not found";
-            context.commit("setHeroes", endData);
-        }
-    }
-}
+  state: {
+    heroes: [],
+    error: '',
+  },
 
+  getters: {
+    filteredHeroes: (state) => (gender) => {
+      const defaultFilter = (gen) =>
+        state.heroes.filter((hero) => hero.gender.toUpperCase() === gen.toUpperCase());
+      const genders = {
+        All: state.heroes,
+        Male: defaultFilter('Male'),
+        Female: defaultFilter('Female'),
+        Unknown: state.heroes.filter((hero) => hero.gender === 'n/a'),
+      };
 
+      return genders[gender];
+    },
+  },
+
+  mutations: {
+    setHeroes(state, payload) {
+      state.heroes = payload;
+    },
+    setError(state, payload) {
+      state.error = payload;
+    },
+    cleanError(state) {
+      state.error = '';
+    },
+  },
+
+  actions: {
+    async fetchHeroes({ commit }, text) {
+      commit('cleanError');
+      try {
+        const {
+          data: { results },
+        } = await axios.get(`https://swapi.dev/api/people/`, {
+          params: {
+            search: text,
+          },
+        });
+        commit('setHeroes', results);
+      } catch (err) {
+        commit('setError', 'Hero not found');
+      }
+    },
+  },
+};
